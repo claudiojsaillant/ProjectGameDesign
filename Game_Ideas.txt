@@ -1,0 +1,13 @@
+Game_Ideas
+
+With the basic game completed(snake generated, food generated, score, and boundary determined), we need to do
+make this game differentiable from the original source (https://www.educative.io/blog/javascript-snake-game-tutorial)
+i got help with creating this on. Some things to add that would be nice is:
+-Difficulty: we can increase and decrease the difficulty by changing the speed and size of the board the players
+are working with.
+-Obstacles: we can add some obstacles that would end the game if snake runs into it.
+-Levels: we can add functionality that when you hit a certain score you go to the next level which introduces a
+new board type.
+-Snake and Food Customability: allow players to change the color of the snake and food object.
+-Play Again Functionality: some functionality that prompts players the game ended and gives them the choice to play again.
+-Music: Add some basic music that loops through the level.
