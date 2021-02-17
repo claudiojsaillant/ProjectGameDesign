@@ -46,7 +46,7 @@ const board_ctx = board.getContext("2d");
 main();
 gen_food();
 // Removed for testing new level formulation, can restore if needed.(basically added just to make a difference between two levels)
-//gen_obstacle();
+gen_obstacle();
 
 document.addEventListener("keydown", change_direction);
 // main function called repeatedly to keep the game running
@@ -66,6 +66,8 @@ function main() {
       moveSnake();
       drawSnake();
       drawObstacle();
+      // Redirects to next level
+      pageRedirect();
       // Call main again
       main();
     },100)
@@ -106,8 +108,15 @@ function drawObstacle() {
   board_ctx.strokestyle = 'black';
   // size of the obstacle.
   // fillRect(x, y, width, height)
-  board_ctx.fillRect(ob_x, ob_y,30,30);
-  board_ctx.strokeRect(ob_x, ob_y,30,30);
+  board_ctx.fillRect(ob_x, ob_y,80,80);
+  board_ctx.strokeRect(ob_x, ob_y,80,80);
+}
+
+//function that redirects to different level once a certain score is hit.
+function pageRedirect(){
+  if(score == 50){
+    window.location.href = "lv3.html";
+  } 
 }
 
 // Draw one snake part
@@ -148,7 +157,7 @@ function obGameEnded() {
   }
 
   // deals with the collision of one specefic object
-  if (snake[0].x < ob_x + 30 && snake[0].x + 15 > ob_x && snake[0].y < ob_y + 30 && snake[0].y + 15 > ob_y) {
+   if (snake[0].x < ob_x + 80 && snake[0].x + 15 > ob_x && snake[0].y < ob_y + 80 && snake[0].y + 15 > ob_y) {
     return true;
   }
 
@@ -174,9 +183,9 @@ function gen_food(){
 //generate obstacle on the canvas.
 function gen_obstacle(){
   // x-coordinate for the obstacle.
-  ob_x = 300;
+  ob_x = 250;
   //y-coordinate for the obstacle.
-  ob_y = 250;
+  ob_y = 200;
 
 }
 
