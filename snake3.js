@@ -130,7 +130,7 @@ function drawObstacles() {
 //function that redirects to different level once a certain score is hit.
 function pageRedirect(){
   if(score == 50){
-    window.location.href = "credits.html";
+    window.location.href = "lv4.html";
   } 
 }
 
@@ -152,6 +152,7 @@ function drawSnakePart(snakePart) {
 
 // Deals with game ending condition for border.
 function gameEnded() {
+  // snake eating itself
   for (let i = 4; i < snake.length; i++) {
     if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) return true
   }
@@ -198,11 +199,37 @@ function gen_food(){
   food_x = random_food(0, board.width - 10);
   // Generate a random number for the food y-coordinate
   food_y = random_food(0, board.height - 10);
+
   // if the new food location is where the snake currently is, generate a new food location
   snake.forEach(function snakeEaten(part) {
     const has_eaten = part.x == food_x && part.y == food_y;
     if (has_eaten) gen_food();
   });
+
+  // food spawns on the boundary of map
+  const hitLeftWall = food_x < 0;
+  const hitRightWall = food_x > board.width - 10;
+  const hitTopWall = food_y < 0;
+  const hitBottomWall = food_y > board.height - 10;
+
+  if(hitLeftWall || hitRightWall || hitTopWall || hitBottomWall){
+    gen_food();
+  }
+
+  // deals with the collision of one specefic object.
+  if (food_x < ob_x + 30 && food_x + 15 > ob_x && food_y < ob_y + 30 && food_y + 15 > ob_y) {
+    gen_food();
+  }
+
+  // deals with the collision of the long object.
+  if (food_x < ob2_x + 15 && food_x + 15 > ob2_x && food_y < ob2_y + 300 && food_y + 15 > ob2_y) {
+    gen_food();
+  }
+
+  // deals with the collision of the second long object.
+  if (food_x < ob3_x + 15 && food_x + 15 > ob3_x && food_y < ob3_y + 300 && food_y + 15 > ob3_y) {
+    gen_food();
+  }
 
 }
 

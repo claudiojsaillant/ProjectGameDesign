@@ -43,7 +43,6 @@ const board = document.getElementById("board");
 const board_ctx = board.getContext("2d");
 
 // Start game as soon as page loads.
-
 main();
 gen_food();
 //Disable obstacle generation because second level will introduce first obstacle
@@ -69,6 +68,7 @@ function main() {
       drawSnake();
       drawObstacle();
       //Redirects page to next level once specific score is hit.
+      
       pageRedirect();
       // Call main again
       main();
@@ -77,6 +77,7 @@ function main() {
 
 // draw a border around the canvas
 function clearCanvas() {
+  
   //  Select the colour to fill the drawing
   board_ctx.fillStyle = board_background;
   //  Select the colour for the border of the canvas
@@ -85,6 +86,8 @@ function clearCanvas() {
   board_ctx.fillRect(0, 0, board.width, board.height);
   // Draw a "border" around the entire canvas
   board_ctx.strokeRect(0, 0, board.width, board.height);
+
+  
 }
 
 // Draw the snake on the canvas
@@ -180,6 +183,16 @@ function gen_food(){
     const has_eaten = part.x == food_x && part.y == food_y;
     if (has_eaten) gen_food();
   });
+
+  // food spawns on the boundary of map
+  const hitLeftWall = food_x < 0;
+  const hitRightWall = food_x > board.width - 10;
+  const hitTopWall = food_y < 0;
+  const hitBottomWall = food_y > board.height - 10;
+
+  if(hitLeftWall || hitRightWall || hitTopWall || hitBottomWall){
+    gen_food();
+  }
 }
 
 //generate obstacle on the canvas.

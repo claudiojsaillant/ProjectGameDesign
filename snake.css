@@ -1,14 +1,17 @@
 #board{
     position:absolute;
-    top:50%;
-    left:50%;
-    transform: translate(-50%,-50%);
+    top:55%;
+    left:52%;
+    transform: translate(-55%,-52%);
 }
 
-#game_label{
+#game_label {
     text-align: center;
 }
 
-#links {
-    float:right;
+#title {
+    text-align: center;
+}
+#info {
+    text-align: center;
 }

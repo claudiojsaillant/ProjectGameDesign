@@ -11,10 +11,10 @@ const snake_border = "black";
 
 let snake = [
   // Number of starting snake parts
-  {x: 100, y: 100}
-  //,{x: 90, y: 100}
-  //,{x: 80, y: 100}
-  //,{x: 70, y: 100}
+  {x: 150, y: 150}
+  //,{x: 90, y: 50}
+  //,{x: 80, y: 50}
+  //,{x: 70, y: 50}
 ]
 
 // Tracks score of the game
@@ -30,6 +30,18 @@ let food_y;
 // Obstacle position
 let ob_x;
 let ob_y;
+
+let ob2_x;
+let ob2_y;
+
+let ob3_x;
+let ob3_y;
+
+let ob4_x;
+let ob4_y;
+
+let ob5_x;
+let ob5_y;
 
 // Horizontal velocity
 let dx = 10;
@@ -65,8 +77,8 @@ function main() {
       drawFood();
       moveSnake();
       drawSnake();
-      drawObstacle();
-      // Redirects to next level
+      drawObstacles();
+      // Redirects page to next level once specific score is hit.
       pageRedirect();
       // Call main again
       main();
@@ -102,20 +114,38 @@ function drawFood() {
 }
 
 // Draw an obstacle on the canvas.
-function drawObstacle() {
+function drawObstacles() {
   //color of the obstacle.
   board_ctx.fillStyle = 'black';
   board_ctx.strokestyle = 'black';
-  // size of the obstacle.
+
+  // size of the first obstacle.
   // fillRect(x, y, width, height)
-  board_ctx.fillRect(ob_x, ob_y,80,80);
-  board_ctx.strokeRect(ob_x, ob_y,80,80);
+  board_ctx.fillRect(ob_x, ob_y,30,30);
+  board_ctx.strokeRect(ob_x, ob_y,30,30);
+
+  // size of the second obstacle.
+  board_ctx.fillRect(ob2_x, ob2_y, 15, 300);
+  board_ctx.strokeRect(ob2_x, ob2_y, 15, 300);
+
+  // size of the third obstacle
+  board_ctx.fillRect(ob3_x, ob3_y, 15, 300);
+  board_ctx.strokeRect(ob3_x, ob3_y, 15, 300);
+  
+  // size of the fourth obstacle
+  board_ctx.fillRect(ob4_x, ob4_y, 415, 15);
+  board_ctx.strokeRect(ob4_x, ob4_y, 415, 15);
+
+  // size of the fifth obstacle
+  board_ctx.fillRect(ob5_x, ob5_y, 415, 15);
+  board_ctx.strokeRect(ob5_x, ob5_y, 415, 15);
+
 }
 
 //function that redirects to different level once a certain score is hit.
 function pageRedirect(){
   if(score == 50){
-    window.location.href = "lv3.html";
+    window.location.href = "credits.html";
   } 
 }
 
@@ -126,10 +156,10 @@ function drawSnakePart(snakePart) {
   board_ctx.fillStyle = snake_col;
   // Set the border colour of the snake part
   board_ctx.strokestyle = snake_border;
-
   // Draw a "filled" rectangle to represent the snake part at the coordinates
   // the part is located
   // Changes size of snake also
+  
   board_ctx.fillRect(snakePart.x, snakePart.y, 15, 15);
   // Draw a border around the snake part
   board_ctx.strokeRect(snakePart.x, snakePart.y, 15, 15);
@@ -137,7 +167,7 @@ function drawSnakePart(snakePart) {
 
 // Deals with game ending condition for border.
 function gameEnded() {
-  // snake eating itself
+  //snake eating itself.
   for (let i = 4; i < snake.length; i++) {
     if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) return true
   }
@@ -157,11 +187,31 @@ function obGameEnded() {
     if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) return true
   }
 
-  // deals with the collision of one specefic object
-   if (snake[0].x < ob_x + 80 && snake[0].x + 15 > ob_x && snake[0].y < ob_y + 80 && snake[0].y + 15 > ob_y) {
+  // deals with the collision of one specefic object.
+  if (snake[0].x < ob_x + 30 && snake[0].x + 15 > ob_x && snake[0].y < ob_y + 30 && snake[0].y + 15 > ob_y) {
     return true;
   }
 
+  // deals with the collision of the long object.
+  if (snake[0].x < ob2_x + 15 && snake[0].x + 15 > ob2_x && snake[0].y < ob2_y + 300 && snake[0].y + 15 > ob2_y) {
+    return true;
+  }
+
+  // deals with the collision of the second long object.
+  if (snake[0].x < ob3_x + 15 && snake[0].x + 15 > ob3_x && snake[0].y < ob3_y + 300 && snake[0].y + 15 > ob3_y) {
+    return true;
+  }
+
+  // deals with the collision of the third long object.
+  if (snake[0].x < ob4_x + 415 && snake[0].x + 15 > ob4_x && snake[0].y < ob4_y + 15 && snake[0].y + 15 > ob4_y) {
+    return true;
+  }
+
+  // deals with the collision of the fourth long object.
+  if (snake[0].x < ob5_x + 415 && snake[0].x + 15 > ob5_x && snake[0].y < ob5_y + 15 && snake[0].y + 15 > ob5_y) {
+    return true;
+  }
+  
 }
 
 function random_food(min, max) {
@@ -191,26 +241,59 @@ function gen_food(){
     gen_food();
   }
 
-  // deals with the collision of one specefic object
-  if (food_x < ob_x + 80 && food_x + 15 > ob_x && food_y < ob_y + 80 && food_y + 15 > ob_y) {
+  // deals with food collision of one specefic object.
+  if (food_x < ob_x + 30 && food_x + 15 > ob_x && food_y < ob_y + 30 && food_y + 15 > ob_y) {
     gen_food();
   }
 
-  // if the new food location is where the obstacle currently is, generate a new food location.
-  function obstacleFoodSpawned() {
-    const has_hit = ob_x == food_x && ob_y == food_y;
-    if(has_hit) gen_food(); 
+  // deals with food collision of the long object.
+  if (food_x < ob2_x + 15 && food_x + 15 > ob2_x && food_y < ob2_y + 300 && food_y + 15 > ob2_y) {
+    gen_food();
   }
 
-  obstacleFoodSpawned();
+  // deals with food collision of the second long object.
+  if (food_x < ob3_x + 15 && food_x + 15 > ob3_x && food_y < ob3_y + 300 && food_y + 15 > ob3_y) {
+    gen_food();
+  }
+
+  // deals with food collision of the third long object.
+  if (food_x < ob4_x + 415 && food_x + 15 > ob4_x && food_y < ob4_y + 15 && food_y + 15 > ob4_y) {
+    gen_food();
+  }
+
+  // deals with food collision of the fourth long object.
+  if (food_x < ob5_x + 415 && food_x + 15 > ob5_x && food_y < ob5_y + 15 && food_y + 15 > ob5_y) {
+    gen_food();
+  }
+
 }
 
 //generate obstacle on the canvas.
 function gen_obstacle(){
   // x-coordinate for the obstacle.
-  ob_x = 250;
+  ob_x = 300;
   //y-coordinate for the obstacle.
-  ob_y = 200;
+  ob_y = 250;
+
+  // x-coordinate for the second obstacle.
+  ob2_x = 100;
+  // y-coordinate for the second obstacle.
+  ob2_y = 105;
+
+  // x-coordinate for the third obstacle.
+  ob3_x = 500;
+  // y-coordinate for the third obstacle.
+  ob3_y = 105;
+
+  // x-coordinate for the fourth obstacle.
+  ob4_x = 100;
+  // y-coordinate for the fourth obstacle.
+  ob4_y = 50;
+
+  // x-coordinate for the fifth obstacle.
+  ob5_x = 100;
+  // y-coordinate for the fifth obstacle.
+  ob5_y = 440;
 
 }
 
