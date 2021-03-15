@@ -1,0 +1,85 @@
+<style>
+
+  .jumbotron {
+        margin: 15px;
+        padding: 40px;
+    }
+
+    #jobtitle {
+        padding: 15px;
+    }
+
+    .display-4,
+    #jobtitle, #jumbotitle, .lead {
+        text-align: center;
+    }
+
+    .job {
+        margin: 20px;
+    }
+
+   .searchbar, .dropdwn {
+       margin: 25px;
+   }
+
+</style>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarTogglerDemo03"
+    aria-controls="navbarTogglerDemo03"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="/">
+   Snek
+  </a>
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item active">
+        <a class="nav-link" href="/login">
+          Log In
+        </a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/signup">
+          Sign Up
+        </a>
+      </li>
+      {{! <li class="nav-item">
+        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+      </li> }}
+    </ul>
+  </div>
+</nav>
+<div class="container">
+  <div class="jumbotron">
+    <h1 class="display-4">
+      Welcome to Snek
+    </h1>
+    <p class="lead">
+      A fun snake game with color customitation
+    </p>
+    <hr class="my-4"/>
+    <h2 id="jumbotitle">Start playing now!</h2>
+    <div class="row justify-content-around mx-auto dropdwn">
+        <button
+          class="btn btn-secondary"
+          type="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          Play with levels
+        </button>
+    </div>
+
+  </div> 
+
+<script src="https://code.jquery.com/jquery.js"></script>
+
+
