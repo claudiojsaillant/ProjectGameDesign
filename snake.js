@@ -31,11 +31,15 @@ let food_y;
 let ob_x;
 let ob_y;
 
+
+
 // Horizontal velocity
 let dx = 10;
 
 // Vertical velocity
 let dy = 0;
+
+let speed = 0;
 
 // Get the canvas element
 const board = document.getElementById("board");
@@ -67,9 +71,6 @@ function main() {
       moveSnake();
       drawSnake();
       drawObstacle();
-      //Redirects page to next level once specific score is hit.
-      
-      pageRedirect();
       // Call main again
       main();
     },100)
@@ -210,7 +211,7 @@ function change_direction(event){
   const RIGHT_KEY = 39;
   const UP_KEY = 38;
   const DOWN_KEY = 40;
-  
+  speed += 0.5
   // Prevent the snake from reversing
   // change these values depending on the difficulty.
   if (changing_direction) return;
@@ -221,7 +222,7 @@ function change_direction(event){
   const goingRight = dx === 10;
   const goingLeft = dx === -10;
   if (keyPressed === LEFT_KEY && !goingRight) {
-    dx = -10;
+    dx = -10 ;
     dy = 0;
   }
   if (keyPressed === UP_KEY && !goingDown) {
