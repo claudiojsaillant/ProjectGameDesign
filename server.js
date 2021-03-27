@@ -33,8 +33,8 @@ app.engine('handlebars', exphbs({
 }}));
 app.set("view engine", "handlebars");
 
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/snek";
-
+// const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/snek";
+MONGODB_URI = "mongodb+srv://claudiodb:123321@gamedesigndb.hicaj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 mongoose.connect(MONGODB_URI);
 
 // EXPRESS:
