@@ -37,6 +37,18 @@ app.get("/credits", function(req, res) {
     res.render("credits");
 });
 
+app.get("/top", function(req, res) {
+
+  db.Users.find().sort([['highScore', -1]]).lean().then((data)=>{
+      let myData = data;
+      res.render("top10Players", {
+        players: myData
+      });
+  });
+ 
+
+});
+
 app.get("/lv1", function(req, res) {
   res.render("lv1");
 });

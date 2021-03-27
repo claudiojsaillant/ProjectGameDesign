@@ -1,0 +1,32 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarTogglerDemo03"
+    aria-controls="navbarTogglerDemo03"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="/">
+   Snek
+  </a>
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+  </div>
+</nav>
+<div class="container">
+  <div class="jumbotron">
+    <h1 class="display-4">
+      Top 10 Players of Snek!
+    </h1>
+    <ul>
+        {{#each players}}
+            <li>{{this.username}} | Score: {{this.highScore}}</li>
+        {{/each}}
+    </ul>
+
+  </div> 
+
+<script src="https://code.jquery.com/jquery.js"></script>

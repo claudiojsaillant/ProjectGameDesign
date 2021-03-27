@@ -94,7 +94,9 @@ module.exports = function(app) {
       res.json({msg: "Database error"})
       console.log(err)
     });
-  })
+  });
+
+
 
 
   
