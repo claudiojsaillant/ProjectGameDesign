@@ -40,20 +40,6 @@
   </a>
   <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      </li class="nav-item">
-      <a class="nav-link active" href="/signup">
-            Welcome,  {{data.user}}
-      </a>
-    
-      </li>
-      <li class="nav-item active">
-        <a class="nav-link active" href="./" id="logoutBtn">
-          Log Out
-        </a>
-      </li>
-        </a>     
-     
-      </li>
       {{! <li class="nav-item">
         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
       </li> }}
@@ -72,25 +58,7 @@
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
 <script src="https://code.jquery.com/jquery.js"></script>
 
-
 <script>
-    const cookieUserData = JSON.parse(Cookies.get("user").split("j:")[1])
-      $('#logoutBtn').on('click', function(){
-    document.cookie = 'user' +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-    location.href = "/";
-    
-  })
-
-        $('#survivalMode').on('click', function(){
-    location.href = "/survival";
-    
-  })
-  
-  
-
-</script>
-
-<script type="text/javascript">
 //Determines the color of the snake.
 var scolor = prompt("Please enter the color you would like your snake to be: ");
 
@@ -104,10 +72,10 @@ const snake_border = "black";
 
 let snake = [
   // Number of starting snake parts
-  {x: 100, y: 100}
-  //,{x: 90, y: 100}
-  //,{x: 80, y: 100}
-  //,{x: 70, y: 100}
+  {x: 100, y: 50}
+  //,{x: 90, y: 50}
+  //,{x: 80, y: 50}
+  //,{x: 70, y: 50}
 ]
 
 // Tracks score of the game
@@ -124,15 +92,17 @@ let food_y;
 let ob_x;
 let ob_y;
 
+let ob2_x;
+let ob2_y;
 
+let ob3_x;
+let ob3_y;
 
 // Horizontal velocity
 let dx = 10;
 
 // Vertical velocity
 let dy = 0;
-
-let speed = 0;
 
 // Get the canvas element
 const board = document.getElementById("board");
@@ -142,41 +112,16 @@ const board_ctx = board.getContext("2d");
 // Start game as soon as page loads.
 main();
 gen_food();
-//Disable obstacle generation because second level will introduce first obstacle
-//gen_obstacle();
+// Removed for testing new level formulation, can restore if needed.(basically added just to make a difference between two levels)
+gen_obstacle();
 
 document.addEventListener("keydown", change_direction);
-
-function submitScore(user) {
-    $.ajax({
-        type: "POST",
-        url: "/score",
-        data: user,
-        cache: false,
-    }).then(function (data) {
-        console.log(data);
-        if(data){
-          alert(data);
-        } 
-        });
-    }
 // main function called repeatedly to keep the game running
 function main() {
     if (gameEnded()){ 
-    let userData = {
-        username: cookieUserData.user,
-        score: score
-    }
-    submitScore(userData);
     alert("You hit the boundary Game Over! Refresh the page to start again!");
-
     return;
     } else if (obGameEnded()){
-    let userData = {
-        username: cookieUserData.username,
-        score: score
-    }
-    submitScore(userData)
     alert("You hit the obstacle, Game Over! Refresh the page to start again!");
     return;
     }
@@ -187,7 +132,9 @@ function main() {
       drawFood();
       moveSnake();
       drawSnake();
-      drawObstacle();
+      drawObstacles();
+      // Redirects page to next level once specific score is hit.
+      pageRedirect();
       // Call main again
       main();
     },100)
@@ -195,7 +142,6 @@ function main() {
 
 // draw a border around the canvas
 function clearCanvas() {
-  
   //  Select the colour to fill the drawing
   board_ctx.fillStyle = board_background;
   //  Select the colour for the border of the canvas
@@ -204,8 +150,6 @@ function clearCanvas() {
   board_ctx.fillRect(0, 0, board.width, board.height);
   // Draw a "border" around the entire canvas
   board_ctx.strokeRect(0, 0, board.width, board.height);
-
-  
 }
 
 // Draw the snake on the canvas
@@ -225,20 +169,29 @@ function drawFood() {
 }
 
 // Draw an obstacle on the canvas.
-function drawObstacle() {
+function drawObstacles() {
   //color of the obstacle.
   board_ctx.fillStyle = 'black';
   board_ctx.strokestyle = 'black';
-  // size of the obstacle.
+
+  // size of the first obstacle.
   // fillRect(x, y, width, height)
   board_ctx.fillRect(ob_x, ob_y,30,30);
   board_ctx.strokeRect(ob_x, ob_y,30,30);
+
+  // size of the second obstacle.
+  board_ctx.fillRect(ob2_x, ob2_y, 15, 300);
+  board_ctx.strokeRect(ob2_x, ob2_y, 15, 300);
+
+  // size of the third obstacle
+  board_ctx.fillRect(ob3_x, ob3_y, 15, 300);
+  board_ctx.strokeRect(ob3_x, ob3_y, 15, 300);
 }
 
 //function that redirects to different level once a certain score is hit.
 function pageRedirect(){
   if(score == 50){
-    window.location.href = "lv2.html";
+    window.location.href = "/lv4";
   } 
 }
 
@@ -260,6 +213,7 @@ function drawSnakePart(snakePart) {
 
 // Deals with game ending condition for border.
 function gameEnded() {
+  // snake eating itself
   for (let i = 4; i < snake.length; i++) {
     if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) return true
   }
@@ -279,8 +233,18 @@ function obGameEnded() {
     if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) return true
   }
 
-  // deals with the collision of one specefic object
+  // deals with the collision of one specefic object.
   if (snake[0].x < ob_x + 30 && snake[0].x + 15 > ob_x && snake[0].y < ob_y + 30 && snake[0].y + 15 > ob_y) {
+    return true;
+  }
+
+  // deals with the collision of the long object.
+  if (snake[0].x < ob2_x + 15 && snake[0].x + 15 > ob2_x && snake[0].y < ob2_y + 300 && snake[0].y + 15 > ob2_y) {
+    return true;
+  }
+
+  // deals with the collision of the second long object.
+  if (snake[0].x < ob3_x + 15 && snake[0].x + 15 > ob3_x && snake[0].y < ob3_y + 300 && snake[0].y + 15 > ob3_y) {
     return true;
   }
 
@@ -296,6 +260,7 @@ function gen_food(){
   food_x = random_food(0, board.width - 10);
   // Generate a random number for the food y-coordinate
   food_y = random_food(0, board.height - 10);
+
   // if the new food location is where the snake currently is, generate a new food location
   snake.forEach(function snakeEaten(part) {
     const has_eaten = part.x == food_x && part.y == food_y;
@@ -311,6 +276,22 @@ function gen_food(){
   if(hitLeftWall || hitRightWall || hitTopWall || hitBottomWall){
     gen_food();
   }
+
+  // deals with the collision of one specefic object.
+  if (food_x < ob_x + 30 && food_x + 15 > ob_x && food_y < ob_y + 30 && food_y + 15 > ob_y) {
+    gen_food();
+  }
+
+  // deals with the collision of the long object.
+  if (food_x < ob2_x + 15 && food_x + 15 > ob2_x && food_y < ob2_y + 300 && food_y + 15 > ob2_y) {
+    gen_food();
+  }
+
+  // deals with the collision of the second long object.
+  if (food_x < ob3_x + 15 && food_x + 15 > ob3_x && food_y < ob3_y + 300 && food_y + 15 > ob3_y) {
+    gen_food();
+  }
+
 }
 
 //generate obstacle on the canvas.
@@ -320,6 +301,16 @@ function gen_obstacle(){
   //y-coordinate for the obstacle.
   ob_y = 250;
 
+  // x-coordinate for the second obstacle.
+  ob2_x = 100;
+  // y-coordinate for the second obstacle.
+  ob2_y = 100;
+
+  // x-coordinate for the third obstacle.
+  ob3_x = 500;
+  // y-coordinate for the third obstacle.
+  ob3_y = 100;
+
 }
 
 // function that deals with the changing direction and speed of the snake.
@@ -328,7 +319,7 @@ function change_direction(event){
   const RIGHT_KEY = 39;
   const UP_KEY = 38;
   const DOWN_KEY = 40;
-  speed += 0.5
+  
   // Prevent the snake from reversing
   // change these values depending on the difficulty.
   if (changing_direction) return;
@@ -339,7 +330,7 @@ function change_direction(event){
   const goingRight = dx === 10;
   const goingLeft = dx === -10;
   if (keyPressed === LEFT_KEY && !goingRight) {
-    dx = -10 ;
+    dx = -10;
     dy = 0;
   }
   if (keyPressed === UP_KEY && !goingDown) {
@@ -376,4 +367,6 @@ function moveSnake(){
     snake.pop();
   }
 }
+
+
 </script>

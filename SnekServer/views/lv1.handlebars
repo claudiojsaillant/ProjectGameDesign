@@ -40,20 +40,6 @@
   </a>
   <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      </li class="nav-item">
-      <a class="nav-link active" href="/signup">
-            Welcome,  {{data.user}}
-      </a>
-    
-      </li>
-      <li class="nav-item active">
-        <a class="nav-link active" href="./" id="logoutBtn">
-          Log Out
-        </a>
-      </li>
-        </a>     
-     
-      </li>
       {{! <li class="nav-item">
         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
       </li> }}
@@ -89,9 +75,8 @@
   
 
 </script>
-
-<script type="text/javascript">
-//Determines the color of the snake.
+<script>
+    //Determines the color of the snake.
 var scolor = prompt("Please enter the color you would like your snake to be: ");
 
 //board color and fill color.
@@ -147,36 +132,12 @@ gen_food();
 
 document.addEventListener("keydown", change_direction);
 
-function submitScore(user) {
-    $.ajax({
-        type: "POST",
-        url: "/score",
-        data: user,
-        cache: false,
-    }).then(function (data) {
-        console.log(data);
-        if(data){
-          alert(data);
-        } 
-        });
-    }
 // main function called repeatedly to keep the game running
 function main() {
     if (gameEnded()){ 
-    let userData = {
-        username: cookieUserData.user,
-        score: score
-    }
-    submitScore(userData);
     alert("You hit the boundary Game Over! Refresh the page to start again!");
-
     return;
     } else if (obGameEnded()){
-    let userData = {
-        username: cookieUserData.username,
-        score: score
-    }
-    submitScore(userData)
     alert("You hit the obstacle, Game Over! Refresh the page to start again!");
     return;
     }
@@ -188,6 +149,7 @@ function main() {
       moveSnake();
       drawSnake();
       drawObstacle();
+      pageRedirect();
       // Call main again
       main();
     },100)
@@ -238,7 +200,7 @@ function drawObstacle() {
 //function that redirects to different level once a certain score is hit.
 function pageRedirect(){
   if(score == 50){
-    window.location.href = "lv2.html";
+    window.location.href = "/lv2";
   } 
 }
 
@@ -376,4 +338,6 @@ function moveSnake(){
     snake.pop();
   }
 }
+
+
 </script>

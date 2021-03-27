@@ -40,24 +40,26 @@
   </a>
   <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
+      
       <li class="nav-item">
-        <a class="nav-link" href="/login">
-          Log In
+       
+        <a class="nav-link active">
+           Welcome,  {{data.user}}
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/signup">
-          Sign Up
-        </a>
-      </li class="nav-item">
-        <a class="nav-link active" href="/signup">
-            Welcome,  {{data.user}}
+       
         <a class="nav-link active" href="./" id="logoutBtn">
           Log Out
         </a>
-    
       </li>
-        </a>     
+            <li class="nav-item active">
+        <a class="nav-link" href="/credits">
+          Credits
+        </a>
+      </li>
+  
      
       </li>
       {{! <li class="nav-item">
@@ -77,15 +79,7 @@
     <hr class="my-4"/>
     <h2 id="jumbotitle">Start playing now!</h2>
     <div class="row justify-content-around mx-auto dropdwn">
-        <button
-          class="btn btn-secondary"
-          type="button"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-        >
-          Play with levels
-        </button>
+        <a class="btn btn-secondary" href="/lv1">Play with levels</a>
                 <button
           id="survivalMode"
           class="btn btn-secondary"

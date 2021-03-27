@@ -9,10 +9,6 @@ module.exports = function(app) {
       });
     } else {
       res.render("index");
-    // res.render("index", {
-    //   jobArrays: finalData,
-    //   categories: categoryData
-    // });
   }
 
   });
@@ -35,7 +31,31 @@ module.exports = function(app) {
     } else {
       res.render("index");
   }
-  })
+  });
+
+app.get("/credits", function(req, res) {
+    res.render("credits");
+});
+
+app.get("/lv1", function(req, res) {
+  res.render("lv1");
+});
+
+app.get("/lv2", function(req, res) {
+  res.render("lv2");
+});
+
+app.get("/lv3", function(req, res) {
+  res.render("lv3");
+});
+
+app.get("/lv4", function(req, res) {
+  res.render("lv4");
+});
+
+app.get("/lv5", function(req, res) {
+  res.render("lv5");
+});
 
 app.get("*", function(req, res) {
   res.render("404");
